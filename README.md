@@ -1,0 +1,5 @@
+一个go项目，etcd+grpc，gin+websocket
+详细介绍见app目录下各个service
+启动入口：各个service下的cmd文件夹
+
+用于学习微服务架构和websocket的使用

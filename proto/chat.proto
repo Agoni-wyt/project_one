@@ -1,0 +1,77 @@
+syntax="proto3";
+option go_package = "chat_pb/";
+
+import public "google/protobuf/timestamp.proto";
+
+message MessageInfo{
+    int64 MessageId=1;
+    string Content=2;
+    int32 MsgType=3;
+    google.protobuf.Timestamp SendTime=4;
+    google.protobuf.Timestamp ReadTime=5;
+}
+
+message SendClientReq{
+    string SystemId = 1;
+    int64 UserId =2;
+    int64 TargetId=3;
+    MessageInfo Data =4;
+}
+
+message CloseClientReq{
+    string SystemId = 1;
+    string UserId = 2;
+}
+
+
+message SendClientReply{
+    int64 Code =1;
+    string Msg =2;
+    MessageInfo Data =3;
+}
+message CloseClientReply{
+    int64 Code =1;
+    string Msg =2;
+}
+
+message CreateCommunityReq{
+    int64 CommunityId =1;
+	string Name=2;
+    int64 OwnerId=3;
+    int64 LimitNum=4;
+    string Desc=5;
+    google.protobuf.Timestamp CreateTime=6;
+}
+
+message CreateCommunityReply{
+    int64 CommunityId =1;
+    int64 Code =2;
+    string Msg =3;
+}
+
+message QuitCommunityReq{
+    int64 UserId =1;
+    int64 CommunityId=2;
+}
+message QuitCommunityReply{
+    int64 Code=1;
+    string Msg =2;
+}
+message JoinCommunityReq{
+    int64 UserId =1;
+    int64 CommunityId=2;
+    google.protobuf.Timestamp JoinTime=3;
+}
+message JoinCommunityReply{
+    int64 Code=1;
+    string Msg =2;
+}
+service ChatService{
+    rpc Send2Client(SendClientReq) returns (SendClientReply);
+    rpc CloseClient (CloseClientReq) returns (CloseClientReply);
+
+    rpc CreateCommunity(CreateCommunityReq)returns(CreateCommunityReply);
+    rpc QuitCommunity(QuitCommunityReq) returns(QuitCommunityReply);
+    rpc JoinCommunity(JoinCommunityReq)returns(JoinCommunityReply);
+    
+}

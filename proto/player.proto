@@ -1,0 +1,115 @@
+syntax="proto3";
+option go_package = "player_pb/";
+
+import public "google/protobuf/timestamp.proto";
+
+message UserRequest{
+  // @inject_tag: json:"user_name" form:"user_name"
+  string UserName=1;
+  // @inject_tag: json:"phone" form:"phone"
+  string Phone=2;
+  // @inject_tag: json:"password" form:"password"
+  string Password=3;
+
+}
+
+
+message UserInfo{
+  int64 UserId=1;
+}
+
+
+message UserResponse{
+  // @inject_tag: json:"user_id" form:"user_id" uri:"user_id"
+  int64 UserId=1;
+  // @inject_tag: json:"user_name" form:"user_name" uri:"user_name"
+  string UserName=2;
+  // @inject_tag: json:"sex" form:"sex" uri:"sex"
+  int32 Sex=3;
+  // @inject_tag: json:"status" form:"status" uri:"status"
+  int32 Status=4;
+  // @inject_tag: json:"avater" form:"avater" uri:"avater"
+  string Avater=5;
+  // @inject_tag: json:"assets1_num" form:"assets1_num" uri:"assets1_num"
+  int64 Assets1Num=6;
+  // @inject_tag: json:"assets2_num" form:"assets2_num" uri:"assets2_num"
+  int64 Assets2Num=7;
+  // @inject_tag: json:"trade_num" form:"trade_num" uri:"trade_num"
+  int64 TradeNum=8;
+  // @inject_tag: json:"title_id" form:"title_id" uri:"title_id"
+  int32 TitleId=9;
+  // @inject_tag: json:"login_time" form:"login_time" uri:"login_time"
+  google.protobuf.Timestamp LoginTime=10;
+  // @inject_tag: json:"login_out_time" form:"login_out_time" uri:"login_out_time"
+  google.protobuf.Timestamp LoginOutTime=11;
+
+}
+
+message UserDetailResponse{
+  // @inject_tag: json:"user_response" form:"user_response" uri:"user_response"
+  UserResponse UserDetail=1;
+  // @inject_tag: json:"code" form:"code"" uri:"code""
+  int64 Code=2;
+}
+
+message UserCommonResponse{
+  // @inject_tag: json:"code" form:"code"" uri:"code""
+  int64 Code=1;
+  // @inject_tag: json:"msg" form:"msg"" uri:"msg""
+  string Msg=2;
+  // @inject_tag: json:"data" form:"data"" uri:"data""
+  string Data=3;
+}
+
+message BackpackAddRequest{
+  // @inject_tag: json:"user_id" form:"user_id" uri:"user_id"
+  int64 UserId=1;
+  // @inject_tag: json:"goods_id" form:"goods_id" uri:"goods_id"
+  int64 GoodsId=2;
+  // @inject_tag: json:"amount" form:"amount" uri:"amount"
+  int64 Amount=3;
+  // @inject_tag: json:"last_price" form:"last_price" uri:"last_price"
+  int64 LastPrice=4;
+}
+message BackpackUserGoodsInfo{
+      // @inject_tag: json:"user_id" form:"user_id" uri:"user_id"
+      int64 UserId=1;
+      // @inject_tag: json:"goods_id" form:"goods_id" uri:"goods_id"
+      int64 GoodsId=2;
+      // @inject_tag: json:"amount" form:"amount" uri:"amount"
+      int64 Amount=3;
+}
+
+
+message BackpackgoodsResponse{
+  BackpackUserGoodsInfo UserGoods =1;
+  int64 Code=2;
+}
+
+message BackpackGoodsInfo{
+  // @inject_tag: json:"goods_id" form:"goods_id" uri:"goods_id"
+  int64 goodsId=1;
+  // @inject_tag: json:"amount" form:"amount" uri:"amount"
+  int64 Amount=2;
+  // @inject_tag: json:"last_price" form:"last_price" uri:"last_price"
+  int64 LastPrice=3;
+}
+
+message BackpackGetAllResponse{
+  // @inject_tag: json:"user_id" form:"user_id" uri:"user_id"
+  int64 UserId=1;
+  repeated BackpackGoodsInfo data =2;
+  int64 Code=3;
+}
+
+
+
+service UserService{
+  rpc UserLogin(UserRequest) returns(UserDetailResponse);
+  rpc UserRegister(UserRequest) returns(UserDetailResponse);
+  rpc UserLogout(UserRequest) returns(UserCommonResponse);
+  rpc UserInfoGet(UserInfo) returns(UserDetailResponse);
+
+  rpc BackpackAdd(BackpackAddRequest) returns(BackpackgoodsResponse);
+  rpc BackpackGetAll(UserInfo) returns(BackpackGetAllResponse);
+}

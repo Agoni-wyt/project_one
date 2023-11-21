@@ -1,0 +1,57 @@
+name: "one_ser"
+mode: "dev"
+ip: "127.0.0.1"
+httpPort: 8090
+version: "v0.0.1"
+start_time: "2023-08-23"
+machine_id: 1
+udp: 3001
+
+services:
+  gateway:
+    name: gateway
+    loadBalance: true
+    rpcPort: 8080
+  player:
+    name: player
+    rpcPort: 8081
+    loadBalance: false
+  chat:
+    name: chat
+    rpcPort: 8082
+    loadBalance: false
+  trade:
+    name: trade
+    rpcPort: 8083
+    loadBalance: false
+
+
+# 日志
+log:
+  level: "debug"
+  filename: "goods_srv.log"
+  max_size: 200
+  max_age: 30
+  max_backups: 7
+
+mysql:
+  host: "127.0.0.1"
+  port: 3306
+  user: "root"
+  password: 123456
+  dbname: "one_project"
+  auto: true
+  max_open_conns: 100
+  max_idle_conns: 10
+
+redis:
+  host: "127.0.0.1"
+  port: 6379
+  password: ""
+  db: 0
+  pool_size: 100
+
+etcd:
+  endpoints:
+    - "127.0.0.1:2379"
+  dialTimeout: 5
